@@ -4,20 +4,113 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-            rizzy's Slot Machine
+            rizzy's FH5 Slot Machine
         </title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="container-fluid bg-dark text-white">
-            <header class="d-flex justify-content-center p-3">
+        <div class="container-fluid bg-dark text-white p-3">
+            <header class="d-flex justify-content-center">
                 <h1>rizzy's Slot Machine</h1>
             </header>
         </div>
-        <div class="container">
-            <em>Work in Progress</em>
+        <div class="container p-3">
+            <div class="d-flex flex-column align-items-center">
+                <button class="btn btn-primary" id="go-button">¡GO!</button>
+                <i class="d-block">Push the button to randomly select your next race!</i>
+                <hr class="w-100 mt-2 mb-2" />
+                <div class="row w-100" id="result">
+                    <div class="col"><h3 id="performance-class-result"></h3></div>
+                    <div class="col"><h3 id="car-type-result"></h3></div>
+                    <div class="col"><h3 id="race-type-result"></h3></div>
+                </div>
+            </div>
         </div>
+        <div class="container p-3">
+            <div class="row">
+                <div class="col">
+                    <h2>Performance Class</h2>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="D" checked> D</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="C" checked> C</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="B" checked> B</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="A" checked> A</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="S1" checked> S1</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="S2" checked> S2</label>
+                    <label class="d-block"><input type="checkbox" class="performance-class" value="X" checked> X</label>
+                </div>
+                <div class="col">
+                    <h2>Car Type</h2>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Hypercars" checked> Hypercars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Modern Supercars" checked> Modern Supercars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Saloons" checked> Retro Saloons</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Supercars" checked> Retro Supercars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Vans And Utility" checked> Vans And Utility</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Sports Cars" checked> Retro Sports Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Modern Sports Cars" checked> Modern Sports Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Super Saloons" checked> Super Saloons</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Classic Racers" checked> Classic Racers</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Cult Cars" checked> Cult Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Rare Classics" checked> Rare Classics</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Hot Hatch" checked> Hot Hatch</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Hot Hatch" checked> Retro Hot Hatch</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Super Hot Hatch" checked> Super Hot Hatch</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Extreme Track Toys" checked> Extreme Track Toys</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Classic Muscle" checked> Classic Muscle</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Rods And Customs" checked> Rods And Customs</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Muscle" checked> Retro Muscle</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Modern Muscle" checked> Modern Muscle</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Retro Rally" checked> Retro Rally</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Classic Rally" checked> Classic Rally</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Rally Monsters" checked> Rally Monsters</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Modern Rally" checked> Modern Rally</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="GT Cars" checked> GT Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Supert GT" checked> Supert GT</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Unlimited Offroad" checked> Unlimited Offroad</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Sports Utility Heroes" checked> Sports Utility Heroes</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Offroad" checked> Offroad</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Unlimited Buggies" checked> Unlimited Buggies</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Classic Sports Cars" checked> Classic Sports Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Track Toys" checked> Track Toys</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Buggies" checked> Buggies</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Drift Cars" checked> Drift Cars</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="Pickups & 4X4's" checked> Pickups & 4X4's</label>
+                    <label class="d-block"><input type="checkbox" class="car-type" value="UTV's" checked> UTV's</label>
+                </div>
+                <div class="col">
+                    <h2>Race Type</h2>
+                    <label class="d-block"><input type="checkbox" class="race-type" value="Road Racing" checked> Road Racing</label>
+                    <label class="d-block"><input type="checkbox" class="race-type" value="Dirt Racing" checked> Dirt Racing</label>
+                    <label class="d-block"><input type="checkbox" class="race-type" value="Cross Country" checked> Cross Country</label>
+                    <label class="d-block"><input type="checkbox" class="race-type" value="Street Racing" checked> Street Racing</label>
+                    <label class="d-block"><input type="checkbox" class="race-type" value="Drag Racing" checked> Drag Racing</label>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(() => {
+                $('#go-button').click(() => {
+                    var performanceClassOptions = $('.performance-class:checked').map((index, element) => { return element.value; }).get();
+                    if(!performanceClassOptions.length) {
+                        performanceClassOptions = $('.performance-class').map((index, element) => { return element.value; }).get();
+                    }
+                    var carTypeOptions = $('.car-type:checked').map((index, element) => { return element.value; }).get();
+                    if(!carTypeOptions.length) {
+                        carTypeOptions = $('.car-type').map((index, element) => { return element.value; }).get();
+                    }
+                    var raceTypeOptions = $('.race-type:checked').map((index, element) => { return element.value; }).get();
+                    if(!raceTypeOptions.length) {
+                        raceTypeOptions = $('.race-type').map((index, element) => { return element.value; }).get();
+                    }
+                    var performanceClass = performanceClassOptions[Math.floor(Math.random() * performanceClassOptions.length)];
+                    var carType = carTypeOptions[Math.floor(Math.random() * carTypeOptions.length)];
+                    var raceType = raceTypeOptions[Math.floor(Math.random() * raceTypeOptions.length)];
+                    $('#performance-class-result').text(performanceClass);
+                    $('#car-type-result').text(carType);
+                    $('#race-type-result').text(raceType);
+                });
+            });
+        </script>
     </body>
 </html>
