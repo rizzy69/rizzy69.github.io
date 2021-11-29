@@ -1,1 +1,1 @@
-[https://rizzy69.github.io/slotmachine]Slot Machine (Random Selection Generator)
+[Slot Machine (Random Selection Generator)](https://rizzy69.github.io/slotmachine)
