@@ -103,8 +103,8 @@
                     planeClassOptions = $('.plane-class').map((index, element) => { return element.value; }).get();
                 }
                 var planeClass = planeClassOptions[Math.floor(Math.random() * planeClassOptions.length)];
-                var minRange = $('input[name="min-range"]').val();
-                var maxRange = $('input[name="max-range"]').val();
+                var minRange = parseFloat($('input[name="min-range"]').val());
+                var maxRange = parseFloat($('input[name="max-range"]').val());
                 if (minRange > maxRange) {
                     var swap = maxRange;
                     maxRange = minRange;
