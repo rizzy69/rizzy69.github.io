@@ -40,6 +40,10 @@
                     <small style="display:none;" class="result-label">To</small>
                     <h3 id="destination-airport-result"></h3>
                 </div>
+                <div class="col">
+                    <small style="display:none;" class="result-label">Distance</small>
+                    <h3 id="distance-result"></h3>
+                </div>
             </div>
         </div>
     </div>
@@ -130,6 +134,7 @@
                 $('#plane-class-result').text(planeClass);
                 $('#origin-airport-result').text(origin.icao + ' (' + origin.name + ')');
                 $('#destination-airport-result').text(destination.icao + ' (' + destination.name + ')');
+                $('#distance-result').text(Math.round(distance(origin.lat, origin.lon, destination.lat, destination.lon)) + ' NM');
             });
         });
     </script>
