@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Unofficial Guild Wars 2 Material Value Calculator</title>
+    <style type="text/css">
+        body {
+            background-image: url('resource/img/GW2_Logo.jpg');
+            background-size: 75%;
+            background-position: top center;
+            background-repeat: no-repeat;
+        }
+
+        .container,
+        .container-fluid {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+
+        .main-container {
+            min-height: 100vh;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        .legal,
+        .footnote {
+            font-size: 12px;
+        }
+
+        img {
+            max-width: 25px;
+        }
+
+        [data-sort-column] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="text-center">
+                    <h1>rizzy's Unofficial GW2 Material Value Calculator</h1>
+                    <p><i>Have you ever wondered how rich you really are?</i></p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container main-container">
+        <div class="row">
+            <div class="col">
+                <form id="get-form" class="mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">API-Key:</span></div>
+                        <input type="text" name="api-key" class="form-control" required aria-required="true">
+                        <div class="input-group-append"><button type="submit" class="btn btn-outline-secondary" value="go">Go!</button></div>
+                    </div>
+                    <div class="api-hint footnote">
+                        Don't have an API key yet? Get yours now from <a rel="noreferer noopener" target="_blank" title="Arena Net Account"
+                            href="https://account.arena.net">https://account.arena.net</a>! (You find your API keys in the "Applications" tab.)
+                    </div>
+                </form>
+                <div id="status"></div>
+                <div id="output"></div>
+                <div id="loader" style="display:none;">
+                    <div class="progress mb-3">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                    </div>
+                </div>
+
+                <div id="sum" style="display:none;">
+                    <div class="sum-total">
+                        <b>Range*:</b>
+                        <span id="sum-total-min"></span> &mdash;
+                        <span id="sum-total-max"></span>
+                    </div>
+                    <div class="footnote">
+                        * The range is based on the minimum buy order price and the lowest sell order price. Fees are not taken into consideration.
+                    </div>
+                </div>
+                <div class="materials-table-wrapper">
+                    <table id="materials-table" class="table table-sm table-responsive-sm" style="display:none;">
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    <!-- Icon -->
+                                </th>
+                                <th data-sort-column="2">Name</th>
+                                <th data-sort-column="3">Inventory</th>
+                                <th data-sort-column="4">Value per Item (min)*</th>
+                                <th data-sort-column="5">Value per Item (max)*</th>
+                                <th data-sort-column="6">Value total (min)*</th>
+                                <th data-sort-column="7">Value total (max)*</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+				
+				<div class="explanation">
+				<p><b>What is this?</b><br>
+				This tool gets information on the materials in your bank account and computes estimates of the combined values of those materials if you sold them now on the trading post.
+				</p>
+				<p><b>Is my API key safe?</b><br>
+				Yes, your data is never actually sent to my server. All the computations happen in your browser which directly communicates with the ArenaNET server. If you don't believe me, ask the IT technician of your choice to have a look at this page. ;)
+				</p>
+				<p><b>How accurate is the computed amount?</b><br>
+				That's hard to say. The tool gets the highest buy orders and lowest sell orders to determine the value of your materials. Those might be inaccurate if you have a lot more materials than are being sold/bought at those prices. So the actual value might deviate in both directions - this might actually make it kind of accurate, in the end, though.
+				</p>
+				<p>- rizzy</p>
+				</div>
+
+
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid">
+        <div class="row">
+            <div class="hidden-md-down col-lg-4"></div>
+            <div class="col-12 col-lg-4">
+                <div class="copyright mb-3">
+                    <p>Guild Wars Copyright and Trademark Information</p>
+                    <p>
+                        &copy; 2010–2022 ArenaNet, LLC. All rights reserved. Guild Wars, Guild Wars 2, Guild Wars 2: Heart of Thorns, ArenaNet, NCSOFT,
+                        the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks
+                        of NCSOFT Corporation. All other trademarks are the property of their respective owners.
+                    </p>
+                </div>
+            </div>
+            <div class="hidden-md-down col-lg-4"></div>
+        </div>
+    </footer>
+
+    <!-- Body JS -->
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+    <script src="resource/script/main.min.js" defer="defer"></script>
+</body>
+
+</html>
