@@ -99,15 +99,12 @@
                     word += iterator.value;
                 }
                 this.guessedWords.push(word);
+                let removalCandidates = [];
                 for (let i = 0; i < 5; i++) {
                     const guessValue = document.querySelector(`input[name="guess${i}"]:checked`).value;
                     if(guessValue === "white") {
                         this.excludedLetters[i].push(word[i]);
-                        if(!(word.slice(0, i) + word.slice(i+1)).includes(word[i])) {
-                            this.possibleLetters = this.possibleLetters.filter((letter) => {
-                                return letter !== word[i];
-                            });
-                        }
+                        removalCandidates.push(word[i]);
                     } else if(guessValue === "yellow") {
                         if(!this.mustIncludeLetters.includes(word[i])) {
                             this.mustIncludeLetters.push(word[i]);
@@ -118,6 +115,13 @@
                             this.mustIncludeLetters.push(word[i]);
                         }
                         this.correctPositions[i] = word[i];
+                    }
+                }
+                for (const removalCandidate of removalCandidates) {
+                    if(!this.mustIncludeLetters.includes(removalCandidate)) {
+                        this.possibleLetters = this.possibleLetters.filter((letter) => {
+                            return letter !== removalCandidate;
+                        })
                     }
                 }
                 this.reduceWords(word);
@@ -158,7 +162,7 @@
                 this.suggestWord();
                 this.updateCount();
             }
-        }
+        };
         window.wordle.init();
         document.getElementById('suggestButton').addEventListener('click', () => {
             window.wordle.next();
