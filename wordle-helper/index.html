@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Worldle Helper</title>
+    <script src="wordle-list-main/words.js"></script>
+    <style>
+        .guess-input {
+            text-transform: uppercase;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>rizzy's Wordle Helper</h1>
+    <p>How to use:</p>
+    <ol>
+        <li>Enter the suggested word into wordle and hit 'Enter' there.</li>
+        <li>For each character, select what wordle shows as color.</li>
+        <li>Hit the Next! button.</li>
+        <li>Repeat.</li>
+    </ol>
+    <table>
+        <tr>
+            <td><input name="char[]" id="char0" class="guess-input" value="" type="text" maxlength="1"></td>
+            <td><input name="char[]" id="char1" class="guess-input" value="" type="text" maxlength="1"></td>
+            <td><input name="char[]" id="char2" class="guess-input" value="" type="text" maxlength="1"></td>
+            <td><input name="char[]" id="char3" class="guess-input" value="" type="text" maxlength="1"></td>
+            <td><input name="char[]" id="char4" class="guess-input" value="" type="text" maxlength="1"></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="guess0" value="white" checked>White</input><br/>
+                <input type="radio" name="guess0" value="yellow">Yellow</input><br/>
+                <input type="radio" name="guess0" value="green">Green</input>
+            </td>
+            <td>
+                <input type="radio" name="guess1" value="white" checked>White</input><br/>
+                <input type="radio" name="guess1" value="yellow">Yellow</input><br/>
+                <input type="radio" name="guess1" value="green">Green</input>
+            </td>
+            <td>
+                <input type="radio" name="guess2" value="white" checked>White</input><br/>
+                <input type="radio" name="guess2" value="yellow">Yellow</input><br/>
+                <input type="radio" name="guess2" value="green">Green</input>
+            </td>
+            <td>
+                <input type="radio" name="guess3" value="white" checked>White</input><br/>
+                <input type="radio" name="guess3" value="yellow">Yellow</input><br/>
+                <input type="radio" name="guess3" value="green">Green</input>
+            </td>
+            <td>
+                <input type="radio" name="guess4" value="white" checked>White</input><br/>
+                <input type="radio" name="guess4" value="yellow">Yellow</input><br/>
+                <input type="radio" name="guess4" value="green">Green</input>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <button id="suggestButton">Next!</button>
+        <button id="resetButton">Reset!</button>
+    </div>
+    <div id="countPossible"></div>
+	<script>
+        window.wordle = {
+            possibleLetters: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+            possibleWords: [...window.words],
+            guesses: 0,
+            mustIncludeLetters: [],
+            excludedLetters: [
+                [],
+                [],
+                [],
+                [],
+                []
+            ],
+            correctPositions: [
+                '','','','',''
+            ],
+            guessedWords: [],
+            suggestWord: function() {
+                const word = this.possibleWords[Math.floor(Math.random() * this.possibleWords.length)];
+                if(word) {
+                    for(let i = 0; i < word.length; i++) {
+                        document.getElementById('char' + i).value = word[i];
+                    }
+                    return;
+                }
+            },
+            updateCount: function() {
+                document.getElementById('countPossible').innerHTML = this.possibleWords.length + ' possible words remaining.';
+            },
+            next: function() {
+                this.guesses++;
+                const input = document.getElementsByClassName('guess-input');
+                let word = '';
+                for (const iterator of input) {
+                    word += iterator.value;
+                }
+                this.guessedWords.push(word);
+                for (let i = 0; i < 5; i++) {
+                    const guessValue = document.querySelector(`input[name="guess${i}"]:checked`).value;
+                    if(guessValue === "white") {
+                        this.excludedLetters[i].push(word[i]);
+                        if(!(word.slice(0, i) + word.slice(i+1)).includes(word[i])) {
+                            this.possibleLetters = this.possibleLetters.filter((letter) => {
+                                return letter !== word[i];
+                            });
+                        }
+                    } else if(guessValue === "yellow") {
+                        if(!this.mustIncludeLetters.includes(word[i])) {
+                            this.mustIncludeLetters.push(word[i]);
+                        }
+                        this.excludedLetters[i].push(word[i]);
+                    } else {
+                        if(!this.mustIncludeLetters.includes(word[i])) {
+                            this.mustIncludeLetters.push(word[i]);
+                        }
+                        this.correctPositions[i] = word[i];
+                    }
+                }
+                this.reduceWords(word);
+                this.updateCount();
+                this.suggestWord();
+            },
+            reduceWords: function(word) {
+                this.possibleWords = this.possibleWords.filter((possibleWord) => {
+                    if(possibleWord === word) {
+                        return false;
+                    }
+                    for(let i = 0; i < this.correctPositions.length; i++) {
+                        if(this.correctPositions[i] !== '' && possibleWord[i] !== this.correctPositions[i]) {
+                            return false;
+                        }
+                        if(this.excludedLetters[i].includes(possibleWord[i])) {
+                            return false;
+                        }
+                        if(!this.possibleLetters.includes(possibleWord[i])) {
+                            return false;
+                        }
+                        for(let i = 0; i < this.mustIncludeLetters.length; i++) {
+                            if(!possibleWord.includes(this.mustIncludeLetters[i])) {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                });
+            },
+            resetRadios: function() {
+                for (let i = 0; i < 5; i++) {
+                    document.querySelector(`input[name="guess${i}"][value="white"]`).checked = true;
+                }
+            },
+            init: function() {
+                this.resetRadios();
+                this.suggestWord();
+                this.updateCount();
+            }
+        }
+        window.wordle.init();
+        document.getElementById('suggestButton').addEventListener('click', () => {
+            window.wordle.next();
+        });
+        document.getElementById('resetButton').addEventListener('click', () => {
+            window.location.reload();
+        });
+    </script>
+  </body>
+</html>
