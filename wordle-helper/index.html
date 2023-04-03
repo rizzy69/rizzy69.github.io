@@ -60,6 +60,7 @@
     <div>
         <button id="suggestButton">Next!</button>
         <button id="resetButton">Reset!</button>
+        <button id="differentWordButton">Different word!</button>
     </div>
     <div id="countPossible"></div>
 	<script>
@@ -80,13 +81,14 @@
             ],
             guessedWords: [],
             suggestWord: function() {
+                // RANDOM
                 const word = this.possibleWords[Math.floor(Math.random() * this.possibleWords.length)];
                 if(word) {
                     for(let i = 0; i < word.length; i++) {
                         document.getElementById('char' + i).value = word[i];
                     }
                     return;
-                }
+                }               
             },
             updateCount: function() {
                 document.getElementById('countPossible').innerHTML = this.possibleWords.length + ' possible words remaining.';
@@ -159,8 +161,8 @@
             },
             init: function() {
                 this.resetRadios();
-                this.suggestWord();
                 this.updateCount();
+                this.suggestWord();
             }
         };
         window.wordle.init();
@@ -169,6 +171,9 @@
         });
         document.getElementById('resetButton').addEventListener('click', () => {
             window.location.reload();
+        });
+        document.getElementById('differentWordButton').addEventListener('click', () => {
+            window.wordle.suggestWord();
         });
     </script>
   </body>
